@@ -24,10 +24,10 @@ public class JwtUtils {
         return null;
     }
 
-    public String generateToken(String userId, String role){
+    public String generateToken(String email, String role){
 
         return Jwts.builder()
-                .subject(userId)
+                .subject(email)
                 .claim("roles", List.of(role))
                 .issuedAt(new Date())
                 .expiration(new Date(new Date().getTime() + jwtExpirationMs))
@@ -37,19 +37,22 @@ public class JwtUtils {
 
     public boolean validateJwtToken(String JwtToken){
         try {
-            Jwts.parser().verifyWith((SecretKey)  key()).build()
+            Jwts.parser().verifyWith((SecretKey) key()).build()
                     .parseSignedClaims(JwtToken);
+
+            return true;
         }
         catch (Exception e){
             e.printStackTrace();
+            return false;
         }
-        return true;
+
     }
     private SecretKey key(){
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
 
-    public String getUsernameFromToken(String jwt){
+    public String getEmailFromToken(String jwt){
         return Jwts.parser().verifyWith((SecretKey) key())
                         .build().parseSignedClaims(jwt)
                         .getPayload().getSubject();

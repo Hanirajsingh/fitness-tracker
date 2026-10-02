@@ -6,14 +6,9 @@ import com.project.fitwith.Repository.UserRepository;
 import com.project.fitwith.dto.LoginRequest;
 import com.project.fitwith.dto.RequestRegister;
 import com.project.fitwith.dto.UserResponse;
-import lombok.Builder;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
-import java.time.ZoneOffset;
-import java.util.List;
 
 @Service
 
@@ -29,7 +24,7 @@ public class UserService {
     }
 
     public UserResponse register(RequestRegister request){
-        UserRole role = request.getRole() !=null ? request.getRole():UserRole.USER;
+        UserRole role = request.getRole() != null ? request.getRole():UserRole.USER;
         User user = User.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))

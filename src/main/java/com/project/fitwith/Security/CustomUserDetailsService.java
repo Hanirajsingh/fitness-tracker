@@ -14,6 +14,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public CustomUserDetailsService (UserRepository userRepository){
         this.userRepository =userRepository;
     }
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
@@ -27,4 +28,5 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .authorities("ROLE" + user.getRole().name())
                 .build();
     }
+
 }

@@ -22,7 +22,9 @@ public class RecommendationController {
     @PostMapping("/generate")
     public ResponseEntity<Recommendation> generateRecommendation(@RequestBody RecommendationRequest request){
 
+
         Recommendation recommendation = recommendationService.generateRecommendatiion(request);
+
         return ResponseEntity.ok(recommendation);
     }
 

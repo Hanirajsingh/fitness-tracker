@@ -19,8 +19,9 @@ public class ActivityController {
         this.activityService = activityService;
     }
 
-    @PostMapping ("/create")
-    public ResponseEntity<ActivityResponse> activiy (@RequestBody ActivityRequest activityRequest){
+    @PostMapping("/create")
+    public ResponseEntity<ActivityResponse> activiy(@RequestBody ActivityRequest activityRequest) {
+
         ActivityResponse response = activityService.createActivity(activityRequest);
         return ResponseEntity.ok(response);
     }

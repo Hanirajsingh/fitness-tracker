@@ -8,13 +8,10 @@ import com.project.fitwith.dto.LoginRequest;
 import com.project.fitwith.dto.LoginResponse;
 import com.project.fitwith.dto.RequestRegister;
 import com.project.fitwith.dto.UserResponse;
-import lombok.RequiredArgsConstructor;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
+
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.parameters.P;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +34,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public UserResponse Register (@RequestBody RequestRegister requestRegister){
+    public UserResponse Register (
+            @Valid @RequestBody RequestRegister requestRegister){
         return  userService.register(requestRegister);
     }
     @PostMapping("/login")
@@ -46,7 +44,7 @@ public class AuthController {
         try{
             User user = userService.authenticate(loginRequest);
 
-            String token = jwtUtils.generateToken(user.getId(),
+            String token = jwtUtils.generateToken(user.getEmail(),
                     user.getRole().name());
 
             return ResponseEntity.ok(new LoginResponse(token,
